@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+
+        }
+        #main{
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        input{
+            display: none;
+        }
+        #btn{
+            padding:12px 22px;
+            background-color:crimson;
+            border-radius: 20px;
+            color:white;
+        }
+         #btn:hover{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <input id="fileinp" type="file"> 
+          <div id="btn">upload file</div>
+     </div>
+     <script src="button.js"></script>
+</body>
+</html>
