@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 min-h-screen flex items-center justify-center p-6">
+    <div class="space-y-4 text-center">
+        <h1 class="text-white text-3xl font-semibold">Toaster Notification</h1>
+        <button id="showToast" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded shadow-lg transition">
+            Show Notification
+        </button>
+    </div>
+
+    <div id="toastContainer" class="fixed top-6 right-6 w-80 space-y-3"></div>
+
+    <script>
+        const toastContainer = document.getElementById('toastContainer');
+        const showToastButton = document.getElementById('showToast');
+
+        function createToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = [
+                'flex',
+                'items-start',
+                'justify-between',
+                'gap-3',
+                'p-4',
+                'rounded-xl',
+                'shadow-2xl',
+                'border',
+                'border-white/10',
+                'text-sm',
+                'text-left',
+                'animate-slideIn',
+                'max-w-full',
+                'overflow-hidden'
+            ].join(' ');
+
+            const bgColor = {
+                info: 'bg-slate-800 text-slate-100',
+                success: 'bg-emerald-600 text-white',
+                warning: 'bg-amber-500 text-slate-900',
+                error: 'bg-rose-600 text-white'
+            }[type] || 'bg-slate-800 text-slate-100';
+
+            toast.classList.add(...bgColor.split(' '));
+
+            toast.innerHTML = `
+                <div class="flex-1">
+                    <p class="font-semibold">${type.charAt(0).toUpperCase() + type.slice(1)}</p>
+                    <p class="mt-1 text-sm opacity-90">${message}</p>
+                </div>
+                <button class="text-slate-200 hover:text-white transition" aria-label="Dismiss">&times;</button>
+            `;
+
+            const closeButton = toast.querySelector('button');
+            closeButton.addEventListener('click', () => removeToast(toast));
+
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => removeToast(toast), 4500);
+        }
+
+        function removeToast(toast) {
+            if (!toast) return;
+            toast.classList.add('opacity-0', 'transition', 'duration-300');
+            toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+        }
+
+        showToastButton.addEventListener('click', () => {
+            createToast('Your action completed successfully.', 'success');
+        });
+    </script>
+
+    <style>
+        @keyframes slideIn {
+            from { transform: translateX(40px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .animate-slideIn {
+            animation: slideIn 0.35s ease-out;
+        }
+    </style>
+</body>
+</html>
